@@ -1,0 +1,8 @@
+dotenv
+boto3
+
+mistralai
+smolagents
+smolagents[openai]
+smolagents[litellm]
+duckduckgo_search

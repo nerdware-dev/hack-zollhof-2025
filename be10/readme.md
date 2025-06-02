@@ -1,5 +1,8 @@
 ## setup
 
+pip freeze > requirements.txt
+pip install -r requirements.txt
+
 
 ### s3
 ```
@@ -9,6 +12,22 @@ aws s3api put-bucket-tagging \
     --bucket nw-hack-2025-state \
     --region=eu-central-1 \
     --tagging '{"TagSet": [{"Key": "nw:project", "Value": "hack-2025"}, {"Key": "created", "Value": "cli"}, {"Key": "by", "Value": "Dominik Pfefferle"}]}'
+```
+
+### secrets
+
+```
+aws secretsmanager create-secret --name nw-hack-2025 --region eu-central-1
+
+#{
+#    "ARN": "arn:aws:secretsmanager:eu-central-1:302263074063:secret:nw-hack-2025-WYq3l9",
+#    "Name": "nw-hack-2025"
+#}
+
+aws secretsmanager tag-resource --secret-id arn:aws:secretsmanager:eu-central-1:302263074063:secret:nw-hack-2025-WYq3l9 \
+--region eu-central-1 \
+--tags Key=nw:project,Value=hack-2025 Key=created,Value=cli "Key=by,Value=Dominik Pfefferle"
+
 ```
 
 ### lambda
@@ -142,4 +161,24 @@ aws apigateway create-deployment \
 curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.com/dev/api/test' \
 --header 'Content-Type: application/json'
 
+```
+
+
+### dynamo
+```
+aws dynamodb create-table \
+--attribute-definitions AttributeName=uid,AttributeType=S \
+--table-name nw-hack-2025-user \
+--key-schema AttributeName=uid,KeyType=HASH \
+--billing-mode PAY_PER_REQUEST \
+--region eu-central-1
+
+#        "TableArn": "arn:aws:dynamodb:eu-central-1:302263074063:table/nw-hack-2025-user",
+#        "TableId": "b0f7ba77-39ff-4d4d-a7c8-924dcbc7b56e",
+
+
+
+aws dynamodb tag-resource --resource-arn arn:aws:dynamodb:eu-central-1:302263074063:table/nw-hack-2025-user \
+--region eu-central-1 \
+--tags Key=nw:project,Value=hack-2025 Key=created,Value=cli "Key=by,Value=Dominik Pfefferle"
 ```
