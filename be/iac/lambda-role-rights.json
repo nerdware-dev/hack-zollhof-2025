@@ -1,0 +1,58 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ListObjectsInBucket",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::nw-hack-2025-state"
+            ]
+        },
+        {
+            "Sid": "AllObjectActions",
+            "Effect": "Allow",
+            "Action": "s3:*Object",
+            "Resource": [
+                "arn:aws:s3:::nw-hack-2025-state/*"
+            ]
+        },
+        {
+            "Sid": "LambdaBasicExecution",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "invokeMyModels",
+            "Effect": "Allow",
+            "Action": "bedrock:InvokeModel",
+            "Resource": [
+                "arn:aws:bedrock:eu-central-1:302263074063:application-inference-profile/x8itfbzmqpmw",
+                "arn:aws:bedrock:eu-west-3::foundation-model/mistral.pixtral-large-2502-v1:0",
+                "arn:aws:bedrock:eu-west-1::foundation-model/mistral.pixtral-large-2502-v1:0",
+                "arn:aws:bedrock:eu-north-1::foundation-model/mistral.pixtral-large-2502-v1:0",
+                "arn:aws:bedrock:eu-central-1::foundation-model/mistral.pixtral-large-2502-v1:0",
+                "arn:aws:bedrock:eu-west-3::foundation-model/mistral.pixtral-large-2502-v1:0",
+
+                "arn:aws:bedrock:eu-central-1:302263074063:application-inference-profile/pube1khgodai",
+                "arn:aws:bedrock:eu-central-1::foundation-model/amazon.titan-embed-text-v2:0"
+            ]
+        },
+        {
+            "Sid": "retrieveAndGenerateMyModels",
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:RetrieveAndGenerate",
+                "bedrock:GetInferenceProfile"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
