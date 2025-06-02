@@ -63,6 +63,17 @@
 			"Resource": [
 				"arn:aws:secretsmanager:eu-central-1:302263074063:secret:nw-hack-2025-WYq3l9"
 			]
+		},
+		{
+			"Sid": "dynamo",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:GetItem",
+				"dynamodb:PutItem"
+			],
+			"Resource": [
+				"arn:aws:dynamodb:eu-central-1:302263074063:table/nw-hack-2025-user"
+			]
 		}
     ]
 }

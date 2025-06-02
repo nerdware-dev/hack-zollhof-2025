@@ -158,9 +158,6 @@ aws apigateway create-deployment \
     --region eu-central-1
 
 
-curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.com/dev/api/test' \
---header 'Content-Type: application/json'
-
 ```
 
 
@@ -181,4 +178,20 @@ aws dynamodb create-table \
 aws dynamodb tag-resource --resource-arn arn:aws:dynamodb:eu-central-1:302263074063:table/nw-hack-2025-user \
 --region eu-central-1 \
 --tags Key=nw:project,Value=hack-2025 Key=created,Value=cli "Key=by,Value=Dominik Pfefferle"
+
+```
+
+
+## test
+
+```
+
+curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.com/dev/api/test' \
+--header 'Content-Type: application/json'
+
+curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.com/dev/api/chat' \
+--header 'Content-Type: application/json' \
+--data '{
+    "question":"Kann man dort auch essen?"
+}'
 ```
