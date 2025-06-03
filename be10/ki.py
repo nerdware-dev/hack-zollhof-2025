@@ -125,4 +125,4 @@ def test():
     ki.ask_question(question)
 
 
-test()
+#test()
