@@ -17,6 +17,15 @@ USER_ID = 'user_12345'
 def lambda_handler(event, context):
     try:
         print(event)
+        if event['httpMethod'] == 'OPTIONS':
+            return {
+                'statusCode': 204,
+                'headers': {
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    'Access-Control-Allow-Origin': '*',
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+                }
+            }
         path = event['path']
         path_parts = path.strip(" /").split('/')
         ki = Ki()
@@ -100,7 +109,8 @@ def lambda_handler(event, context):
                 'statusCode': 200,
                 'headers': {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+                    'Access-Control-Allow-Origin': '*',
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
                 },
                 'body': USER_ID
             }
