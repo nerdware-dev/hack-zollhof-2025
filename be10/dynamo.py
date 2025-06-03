@@ -2,7 +2,7 @@ import boto3
 from botocore.config import Config as BotoConfig
 import os
 from dotenv import load_dotenv
-from datamodels.User import User
+from User import User
 from dacite import from_dict, Config as DaciteConfig
 from dataclasses import asdict
 
