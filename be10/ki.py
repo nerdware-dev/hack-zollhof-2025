@@ -91,6 +91,7 @@ class Ki:
         ki_response = chat_response.choices[0].message.content
         print(ki_response)
         self.append_chat(question,ki_response)
+        self.update_user()
 
         return ki_response
 
