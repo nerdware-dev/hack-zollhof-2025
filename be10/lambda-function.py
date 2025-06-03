@@ -14,6 +14,7 @@ def lambda_handler(event, context):
         print(event)
         path = event['path']
         path_parts = path.strip(" /").split('/')
+        ki = Ki()
         if path.endswith('/test'):
 
             return {
@@ -29,7 +30,6 @@ def lambda_handler(event, context):
         elif path.endswith('/agent'):
             body = json.loads(event['body'])
             question = body.get('question')
-            ki = Ki()
             answer = ki.ask_question(question)
             return {
                 'statusCode': 200,
@@ -44,7 +44,6 @@ def lambda_handler(event, context):
         elif path.endswith('/chat'):
             body = json.loads(event['body'])
             question = body.get('question')
-            ki = Ki()
             answer = ki.chat_with_user_data(question)
             return {
                 'statusCode': 200,

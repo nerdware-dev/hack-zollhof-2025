@@ -1,6 +1,6 @@
 dotenv
 boto3
-
+dacite
 mistralai
 google-genai
 smolagents
