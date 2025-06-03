@@ -28,9 +28,7 @@ class Ki:
         print("ki init")
 
     def append_chat(self, question: str, answer: str):
-        chat_message = ChatMessage()
-        chat_message.question = question
-        chat_message.answer = answer
+        chat_message = ChatMessage(question,answer)
         self.user.chat_history.append(chat_message)
 
     def new_chat(self, question: str) -> str:
