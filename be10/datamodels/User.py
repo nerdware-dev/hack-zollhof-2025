@@ -11,10 +11,6 @@ class UserPreferences:
     activities: list[str]
 
 @dataclass
-class AiPreferences:
-    content: str
-
-@dataclass
 class ChatMessage:
     question: str
     answer: str
@@ -26,6 +22,6 @@ class User:
     username: str
     email: str
     basic_preferences: UserPreferences
-    ai_preferences: AiPreferences
+    ai_preferences: str
     chat_history: list[ChatMessage]
 

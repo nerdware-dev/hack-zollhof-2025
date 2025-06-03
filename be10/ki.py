@@ -1,3 +1,5 @@
+import json
+
 from mistralai import Mistral
 from google import genai
 import os
@@ -68,6 +70,14 @@ class Ki:
 
     def update_user(self):
         self.db.put_item(USER_ID, self.user)
+
+    def summarize_interview(self):
+        chat = self.get_chat_history()
+        chat += self.new_chat("Fasse die bisherige Kommunikation nach dessen Interessen in eine Liste zusammen und ergänze diese mit der Liste: " + json.dumps(self.user.ai_preferences) + ". Antworte nur mit der Liste")
+        response = self.chat_ki(chat)
+        self.user.chat_history = []
+        self.user.ai_preferences = response
+        self.update_user()
 
     def ask_question(self, question: str):
         chat_history = self.get_chat_history()
