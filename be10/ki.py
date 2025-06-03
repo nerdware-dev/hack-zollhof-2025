@@ -19,12 +19,13 @@ from smolagents import (
 )
 
 TABLE = "nw-hack-2025-user"
-USER_ID = 'a3cd0312-dfa4-42a7-806e-9164b5b9215c'
+USER_ID = 'user_12345'
 
 class Ki:
     def __init__(self):
         load_secrets()
         self.db = UserTable(TABLE)
+        self.user = self.db.get_item(USER_ID)
         self.gemini_key = os.environ['GEMENAI_API_KEY']
         self.gemini_client = genai.Client(api_key=self.gemini_key)
         print("ki init")
@@ -34,7 +35,9 @@ class Ki:
         chat_message.question = question
         chat_message.answer = answer
         self.user.chat_history.append(chat_message)
-        #         user_data["Item"]["data"]["M"]["chat"]["L"].append({"M": {"p": {"S": question}, "a": {"S": response}}})
+
+    def new_chat(self, question: str) -> str:
+        return "ANWENDER-FRAGE: " + question + "\nAntworte auf deutsch!"
 
     def get_chat_history(self):
         chat_history = "Chat Verlauf:\n"
@@ -56,7 +59,7 @@ class Ki:
 
     def chat_with_user_data(self, question):
         chat = self.get_chat_history()
-        chat += "ANWENDER-FRAG: " + question + "\nAntworte auf deutsch!"
+        chat += self.new_chat(question)
         response = self.chat_ki(chat)
         self.append_chat(question, response)
         self.update_user()
@@ -68,7 +71,7 @@ class Ki:
 
     def ask_question(self, question: str):
         chat_history = self.get_chat_history()
-        chat_history += "ANWENDER-FRAG: " + question + "\nAntworte auf deutsch!"
+        chat_history += self.new_chat(question)
 
         mistral_model = "mistral-large-latest"
         # client = Mistral(api_key=os.environ['MISTRAL_API_KEY'])
