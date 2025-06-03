@@ -7,23 +7,43 @@ import { useRouter } from "next/navigation";
 import PasswordField from "@/components/input/PasswordField";
 import { useState } from "react";
 import { useUserStore } from "@/stores/user/userStore";
+import { Dropdown } from "primereact/dropdown";
+import { germanCities } from "./germanCities";
 
 export default function Login() {
   const router = useRouter();
   const userStore = useUserStore();
+  const [selectedCity, setSelectedCity] = useState<{
+    id: number;
+    city: string;
+    zip: string;
+  } | null>(null);
   const [userData, setUserData] = useState({
     firstname: "",
     lastname: "",
     email: "",
     password: "",
     confirmPassword: "",
+    city: "",
+    zip: "",
   });
+
+  const germanCitiesOptions = germanCities
+    .sort((a, b) => a.city.localeCompare(b.city))
+    .map((city) => ({
+      label: `${city.city} (PLZ: ${city.zip})`,
+      value: city,
+    }));
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   }
 
   const handleRegister = () => {
+    userStore.setUserLocation({
+      city: selectedCity?.city || "",
+      zip: selectedCity?.zip || "",
+    });
     userStore.setUser({
       firstname: userData.firstname,
       lastname: userData.lastname,
@@ -61,6 +81,24 @@ export default function Login() {
             onChange={handleChange}
           />
         </div>
+        <Dropdown
+          options={germanCitiesOptions}
+          virtualScrollerOptions={{
+            itemSize: 48,
+          }}
+          placeholder="Select your city"
+          filter
+          filterBy="label"
+          value={selectedCity}
+          onChange={(e) => {
+            setSelectedCity(e.value);
+            setUserData({
+              ...userData,
+              city: e.value.city,
+              zip: e.value.zip,
+            });
+          }}
+        />
         <InputText
           placeholder="Email"
           className="w-full"
