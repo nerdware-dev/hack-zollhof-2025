@@ -104,6 +104,15 @@ def lambda_handler(event, context):
                 },
                 'body': USER_ID
             }
+        elif path.endswith('/summarize'):
+            ki.summarize_interview()
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'text/plain',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            }
         else:
             return {
                 'statusCode': 404,

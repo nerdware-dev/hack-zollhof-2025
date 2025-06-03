@@ -116,7 +116,7 @@ class Ki:
 
     def summarize_interview(self):
         chat = self.get_chat_history()
-        chat += self.new_chat("Fasse die bisherige Kommunikation nach dessen Interessen in eine Liste zusammen und ergänze diese mit der Liste: " + json.dumps(self.user.ai_preferences) + ". Antworte nur mit der Liste")
+        chat += self.new_chat("Fasse die bisherige Kommunikation nach den Nutzer-Interessen zusammen und ergänze diese mit der Liste: " + json.dumps(self.user.ai_preferences) + ". Antworte nur mit der Liste")
         response = self.chat_ki(chat)
         self.user.chat_history = []
         self.user.ai_preferences = response
