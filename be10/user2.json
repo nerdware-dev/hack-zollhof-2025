@@ -1,0 +1,29 @@
+{
+  "uid": "user_12345",
+  "first_name": "Alice",
+  "last_name": "Smith",
+  "username": "alice_s",
+  "email": "alice@example.com",
+  "basic_preferences": {
+    "year_of_birth": 1990,
+    "city": "Berlin",
+    "country": "Germany",
+    "radius_in_km": 50,
+    "insurer_name": "TK",
+    "notifications": true,
+    "activities": ["running", "yoga", "cycling"]
+  },
+  "ai_preferences": {
+    "content": "personalized health tips"
+  },
+  "chat_history": [
+    {
+      "question": "How can I improve my sleep?",
+      "answer": "Try reducing screen time before bed and maintaining a consistent sleep schedule."
+    },
+    {
+      "question": "What's a good breakfast for energy?",
+      "answer": "Oatmeal with fruits and nuts provides long-lasting energy."
+    }
+  ]
+}

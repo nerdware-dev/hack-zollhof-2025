@@ -6,10 +6,12 @@ import NerdwareFooter from "@/components/NerdwareFooter";
 import { useRouter } from "next/navigation";
 import PasswordField from "@/components/input/PasswordField";
 import { useUserStore } from "@/stores/user/userStore";
+import { callTestApi } from "./useTestApi";
 
 export default function Login() {
   const router = useRouter();
   const userStore = useUserStore();
+
   // Hardcoded credentials for demo
   const username = "maria.nelles@nerdware.dev";
   const password = "123456";
@@ -22,13 +24,19 @@ export default function Login() {
     });
     userStore.setUserLocation({
       city: "Nuremberg",
-      zipCode: "90403",
+      zip: "90403",
     });
     userStore.setHealthInsurance({
       name: "AOK",
       key: "aok",
     });
     router.replace("/home/calendar");
+    //router.replace("/onboarding");
+  }
+
+  async function callApi() {
+    const result = await callTestApi();
+    console.log("result", result);
   }
 
   return (
@@ -53,6 +61,7 @@ export default function Login() {
           className="w-full"
           onClick={() => router.push("/register")}
         />
+        {/* <Button label="Call test API" className="w-full " onClick={callApi} /> */}
       </div>
       <NerdwareFooter />
     </div>

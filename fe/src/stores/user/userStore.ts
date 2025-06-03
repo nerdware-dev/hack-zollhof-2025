@@ -8,7 +8,7 @@ interface UserBase {
 
 interface UserLocation {
     city: string;
-    zipCode: string;
+    zip: string;
 }
 
 interface User extends UserBase {
@@ -34,7 +34,7 @@ export const useUserStore = create<User & UserStoreActions>((set) => ({
     email: "",
     location: {
         city: "",
-        zipCode: "",
+        zip: "",
     },
     healthInsurance: {
         name: "",

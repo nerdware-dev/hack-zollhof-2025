@@ -1,9 +1,12 @@
 dotenv
 boto3
-
+dacite
 mistralai
 google-genai
 smolagents
 smolagents[openai]
 smolagents[litellm]
 duckduckgo_search
+
+markdownify
+requests
