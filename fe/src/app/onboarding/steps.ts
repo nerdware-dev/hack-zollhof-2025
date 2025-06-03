@@ -1,4 +1,5 @@
 import { ChatMessage } from "@/components/chat/ChatInterface";
+import { useRegistration } from "@/hooks/useRegistration";
 import { insurances } from "@/stores/insurances/insurancelist";
 import { useUserStore } from "@/stores/user/userStore";
 import { useRouter } from "next/navigation";
@@ -8,37 +9,43 @@ import { useState } from "react";
 export function useSteps() {
     const [currentStep, setCurrentStep] = useState(0);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
-    const [onboardingAnswers, setOnboardingAnswers] = useState<string[]>([
-        "", // health insurance
-    ]);
     const userStore = useUserStore();
     const router = useRouter();
+    const register = useRegistration().register;
 
-    function handleOptionSelected(value: string) {
-        const currentAnswers = [...onboardingAnswers];
-        currentAnswers[currentStep] = value;
-        let nextStep = currentStep + 1;
-        setOnboardingAnswers(currentAnswers);
+    async function handleOptionSelected(value: string) {
+        setCurrentStep(currentStep + 1);
 
         if (currentStep === 0) {
             const insurance = insurances.find(insurance => insurance.value === value);
             if (insurance) {
                 userStore.setHealthInsurance({ key: insurance.value, name: insurance.text });
             }
-            handleStepTwo();
+            addMessagesForStepTwo();
         }
 
         if (currentStep === 1) {
-            if (value === "yes") {
-                router.push("/home/calendar");
-            } else {
-                nextStep = 0;
-                setMessages([]);
-                handleStepOne();
-            }
+            userStore.setGender(value);
+            addMessagesForStepThree();
         }
 
-        setCurrentStep(nextStep);
+
+        if (currentStep === 2) {
+            userStore.setRadius(Number(value));
+            addMessagesForStepFour();
+        }
+
+        if (currentStep === 3) {
+            if (value === "yes") {
+                await register();
+                router.push("/onboarding/step2");
+            } else {
+                //nextStep = 0;
+                setCurrentStep(0);
+                setMessages([]);
+                addMessagesForStepOne();
+            }
+        }
     }
 
 
@@ -55,16 +62,16 @@ export function useSteps() {
 
 
 
-    function handleStepOne() {
+    function addMessagesForStepOne() {
         addMessage(
             {
                 id: "1",
                 type: "text",
-                text: "Hello! I'm your health assistant. How can I help you today?",
+                text: "Hello! I'll guide you through the onboarding process. Let me ask you a few questions up front.",
                 sender: "ai",
                 timestamp: new Date(),
             },
-            500
+            100
         );
         addMessage(
             {
@@ -76,15 +83,56 @@ export function useSteps() {
                 readonly: false,
                 options: insurances,
             },
-            1000
+            800
         );
     }
 
 
-    function handleStepTwo() {
+
+    function addMessagesForStepTwo() {
+        addMessage(
+            {
+                id: "3",
+                type: "options",
+                text: "What is your gender?",
+                sender: "ai",
+                timestamp: new Date(),
+                readonly: false,
+                options: [
+                    { text: "Male", value: "m" },
+                    { text: "Female", value: "w" },
+                    { text: "Other", value: "d" },
+                ],
+            }, 100);
+    }
+
+
+
+    function addMessagesForStepThree() {
         addMessage(
             {
                 id: "4",
+                type: "options",
+                text: "What is the radius you want to get activity recommendations for?",
+                sender: "ai",
+                timestamp: new Date(),
+                readonly: false,
+                options: [
+                    { text: "1 km", value: "1" },
+                    { text: "5 km", value: "5" },
+                    { text: "10 km", value: "10" },
+                    { text: "15 km", value: "15" },
+                    { text: "20 km", value: "20" },
+                    { text: "30 km", value: "30" },
+                    { text: "50 km", value: "50" },
+                ],
+            }, 100);
+    }
+
+    function addMessagesForStepFour() {
+        addMessage(
+            {
+                id: "5",
                 type: "options",
                 text: "Let's proceed with the onboarding",
                 sender: "ai",
@@ -92,13 +140,12 @@ export function useSteps() {
                 readonly: false,
                 options: [
                     { text: "Sure", value: "yes" },
-                    { text: "No, I picked the wrong insurance", value: "no" },
+                    { text: "No, let's repeat", value: "no" },
                 ],
-            }, 500);
+            }, 200);
     }
 
-
-    return { handleStepOne, currentStep, setCurrentStep, onboardingAnswers, setOnboardingAnswers, handleOptionSelected, addMessage, messages, setMessages };
+    return { handleStepOne: addMessagesForStepOne, currentStep, setCurrentStep, handleOptionSelected, addMessage, messages, setMessages };
 }
 
 

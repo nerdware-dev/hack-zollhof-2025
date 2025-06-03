@@ -20,7 +20,10 @@ export default function Login() {
     userStore.setUser({
       firstname: "Maria",
       lastname: "Nelles",
+      gender: "w",
+      yearOfBirth: 1968,
       email: username,
+      radius: 10,
     });
     userStore.setUserLocation({
       city: "Nuremberg",
@@ -30,8 +33,8 @@ export default function Login() {
       name: "AOK",
       key: "aok",
     });
-    router.replace("/home/calendar");
-    //router.replace("/onboarding");
+    //router.replace("/home/calendar");
+    router.replace("/onboarding");
   }
 
   async function callApi() {

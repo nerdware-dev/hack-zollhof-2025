@@ -3,7 +3,10 @@ import { create } from 'zustand';
 interface UserBase {
     firstname: string;
     lastname: string;
+    yearOfBirth: number;
     email: string;
+    gender: string;
+    radius: number;
 }
 
 interface UserLocation {
@@ -24,6 +27,9 @@ interface HealthInsurance {
 
 interface UserStoreActions {
     setUser: (user: UserBase) => void;
+    setGender: (gender: string) => void;
+    setYearOfBirth: (yearOfBirth: number) => void;
+    setRadius: (radius: number) => void;
     setUserLocation: (location: UserLocation) => void;
     setHealthInsurance: (healthInsurance: HealthInsurance) => void;
 }
@@ -31,7 +37,10 @@ interface UserStoreActions {
 export const useUserStore = create<User & UserStoreActions>((set) => ({
     firstname: "",
     lastname: "",
+    yearOfBirth: 2024,
+    radius: 0,
     email: "",
+    gender: "",
     location: {
         city: "",
         zip: "",
@@ -41,6 +50,9 @@ export const useUserStore = create<User & UserStoreActions>((set) => ({
         key: "",
     },
     setUser: (user: UserBase) => set(user),
+    setGender: (gender: string) => set({ gender }),
+    setRadius: (radius: number) => set({ radius }),
+    setYearOfBirth: (yearOfBirth: number) => set({ yearOfBirth }),
     setUserLocation: (location: UserLocation) => set({ location }),
     setHealthInsurance: (healthInsurance: HealthInsurance) => set({ healthInsurance }),
 }));

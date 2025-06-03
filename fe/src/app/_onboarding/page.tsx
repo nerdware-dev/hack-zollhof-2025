@@ -55,7 +55,7 @@ export default function OnboardingPage() {
     });
     userStore.setUserLocation({
       city: livingArea,
-      zipCode: zipCode,
+      zip: zipCode,
     });
 
     // Navigate to home

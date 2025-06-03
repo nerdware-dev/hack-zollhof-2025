@@ -6,17 +6,21 @@ import { useSteps } from "./steps";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function Onboard() {
-  const {
-    handleOptionSelected,
-    handleStepOne,
-    messages,
-    setMessages,
-    currentStep,
-  } = useSteps();
+  const { messages, setMessages, init, sendMessageToAI } = useSteps();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    handleStepOne();
+    setLoading(true);
+    init().then(() => {
+      setLoading(false);
+    });
   }, []);
+
+  function handleOptionSelected() {}
+
+  function handleUserMessageSent(message: string) {
+    sendMessageToAI(message);
+  }
 
   return (
     <>
@@ -24,9 +28,9 @@ export default function Onboard() {
         onOptionSelected={handleOptionSelected}
         messages={messages}
         setMessages={setMessages}
-        inputDisabled
+        onUserMessageSent={handleUserMessageSent}
       />
-      {currentStep === 4 && (
+      {loading && (
         <div
           style={{
             position: "absolute",

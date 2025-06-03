@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useUserStore } from "@/stores/user/userStore";
 import { Dropdown } from "primereact/dropdown";
 import { germanCities } from "./germanCities";
+import { InputNumber } from "primereact/inputnumber";
 
 export default function Login() {
   const router = useRouter();
@@ -21,9 +22,9 @@ export default function Login() {
   const [userData, setUserData] = useState({
     firstname: "",
     lastname: "",
+    yearOfBirth: 0,
     email: "",
     password: "",
-    confirmPassword: "",
     city: "",
     zip: "",
   });
@@ -47,7 +48,9 @@ export default function Login() {
     userStore.setUser({
       firstname: userData.firstname,
       lastname: userData.lastname,
+      yearOfBirth: userData.yearOfBirth,
       email: userData.email,
+      gender: "",
     });
     router.push("/onboarding");
   };
@@ -57,70 +60,109 @@ export default function Login() {
     userData.lastname &&
     userData.email &&
     userData.password &&
-    userData.confirmPassword;
+    userData.yearOfBirth;
 
   return (
     <div className="flex flex-col items-center justify-center h-screen px-4">
       <div className="flex flex-col gap-4 w-full max-w-md">
         <div className="text-3xl font-bold text-center mb-1">Register</div>
         <div className="flex gap-2">
-          <InputText
-            placeholder="Firstname"
-            className="w-full"
-            type="text"
-            name="firstname"
-            value={userData.firstname}
-            onChange={handleChange}
+          <div className="flex flex-col w-full">
+            <label htmlFor="firstname" className="mb-1 text-xs">
+              First Name
+            </label>
+            <InputText
+              id="firstname"
+              placeholder="Firstname"
+              className="w-full"
+              type="text"
+              name="firstname"
+              value={userData.firstname}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col w-full">
+            <label htmlFor="lastname" className="mb-1 text-xs">
+              Last Name
+            </label>
+            <InputText
+              id="lastname"
+              placeholder="Lastname"
+              className="w-full"
+              type="text"
+              name="lastname"
+              value={userData.lastname}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="city" className="mb-1 text-xs">
+            City
+          </label>
+          <Dropdown
+            id="city"
+            options={germanCitiesOptions}
+            virtualScrollerOptions={{
+              itemSize: 48,
+            }}
+            placeholder="Select your city"
+            filter
+            filterBy="label"
+            value={selectedCity}
+            onChange={(e) => {
+              setSelectedCity(e.value);
+              setUserData({
+                ...userData,
+                city: e.value.city,
+                zip: e.value.zip,
+              });
+            }}
           />
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="yearOfBirth" className="mb-1 text-xs">
+            Year of Birth
+          </label>
+          <InputNumber
+            id="yearOfBirth"
+            value={userData.yearOfBirth}
+            onValueChange={(e) =>
+              setUserData({ ...userData, yearOfBirth: e.value || 0 })
+            }
+            min={1900}
+            max={2024}
+            useGrouping={false}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="email" className="mb-1 text-xs">
+            Email
+          </label>
           <InputText
-            placeholder="Lastname"
+            id="email"
+            placeholder="Email"
             className="w-full"
-            type="text"
-            name="lastname"
-            value={userData.lastname}
+            type="email"
+            name="email"
+            value={userData.email}
             onChange={handleChange}
           />
         </div>
-        <Dropdown
-          options={germanCitiesOptions}
-          virtualScrollerOptions={{
-            itemSize: 48,
-          }}
-          placeholder="Select your city"
-          filter
-          filterBy="label"
-          value={selectedCity}
-          onChange={(e) => {
-            setSelectedCity(e.value);
-            setUserData({
-              ...userData,
-              city: e.value.city,
-              zip: e.value.zip,
-            });
-          }}
-        />
-        <InputText
-          placeholder="Email"
-          className="w-full"
-          type="email"
-          name="email"
-          value={userData.email}
-          onChange={handleChange}
-        />
-        <PasswordField
-          placeholder="Password"
-          className="w-full"
-          name="password"
-          value={userData.password}
-          onChange={handleChange}
-        />
-        <PasswordField
-          placeholder="Confirm Password"
-          className="w-full"
-          name="confirmPassword"
-          value={userData.confirmPassword}
-          onChange={handleChange}
-        />
+        <div className="flex flex-col">
+          <label htmlFor="password" className="mb-1 text-xs">
+            Password
+          </label>
+          <PasswordField
+            id="password"
+            placeholder="Password"
+            className="w-full"
+            name="password"
+            value={userData.password}
+            onChange={handleChange}
+          />
+        </div>
         <Button
           label="Register"
           className="w-full"
