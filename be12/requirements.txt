@@ -2,7 +2,7 @@ dotenv
 boto3
 
 mistralai
-google-genai
+google
 smolagents
 smolagents[openai]
 smolagents[litellm]

@@ -38,10 +38,7 @@ class User:
         print(response)
         return response
 
-def test():
-    user = User()
-    user.put_item('a3cd0312-dfa4-42a7-806e-9164b5b9215c',{"chat": {"L": [
-        {"M": {"p": {"S": "Hallo"}, "a": {"S": "Auch hallo"}}}
-    ]}})
-
-#test()
+#user = User()
+#user.put_item('a3cd0312-dfa4-42a7-806e-9164b5b9215c',{"chat": {"L": [
+#    {"M": {"p": {"S": "Hallo"}, "a": {"S": "Auch hallo"}}}
+#]}})
