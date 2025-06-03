@@ -21,7 +21,8 @@ class Ki:
     def __init__(self):
         load_secrets()
         self.user = User()
-        self.gemini_client = genai.Client(api_key=os.environ['GEMENAI_API_KEY'])
+        self.gemini_key = os.environ['GEMENAI_API_KEY']
+        self.gemini_client = genai.Client(api_key=self.gemini_key)
         print("ki init")
 
     def chat_ki(self, question, chats=[]):
@@ -88,8 +89,7 @@ class Ki:
         model = LiteLLMModel(model_id="mistral/" + mistral_model,
                              api_key=os.environ['MISTRAL_API_KEY'], )
         # model = OpenAIServerModel(model_id="gemini-2.0-flash",
-        #                          api_key=GEMINI_API_KEY,
-        #                          # Google Gemini OpenAI-compatible API base URL
+        #                          api_key=self.gemini_key,
         #                          api_base="https://generativelanguage.googleapis.com/v1beta/openai/", )
         agent = CodeAgent(
             tools=[

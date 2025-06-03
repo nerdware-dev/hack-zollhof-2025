@@ -7,3 +7,6 @@ smolagents
 smolagents[openai]
 smolagents[litellm]
 duckduckgo_search
+
+markdownify
+requests
