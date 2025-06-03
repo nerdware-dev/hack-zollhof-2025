@@ -2,14 +2,7 @@ import boto3
 from botocore.config import Config as BotoConfig
 import os
 from dotenv import load_dotenv
-from User import User
-from dacite import from_dict, Config as DaciteConfig
-from dataclasses import asdict
-
-dacite_config = DaciteConfig(type_hooks={
-    float: float,
-    int: int
-})
+from User import User, user_to_dict, user_from_dict
 
 class UserTable:
     def __init__(self, table_name):
@@ -19,7 +12,7 @@ class UserTable:
         self.table = dynamodb.Table(table_name)
 
     def put_item(self, uid: str, user: User) -> None:
-        data = asdict(user)
+        data = user_to_dict(user)
         item = {
             "uid": uid,
             "data": data
@@ -38,7 +31,7 @@ class UserTable:
         )
         print(response)
         data = response['Item']["data"]
-        user = from_dict(data_class=User, data=data, config=dacite_config)
+        user = user_from_dict(data)
         return user
 
 def test():

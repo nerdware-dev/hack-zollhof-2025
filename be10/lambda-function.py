@@ -2,12 +2,17 @@ import json
 import os
 
 from dotenv import load_dotenv
+
+from User import user_from_dict
+from dynamo import UserTable
 from ki import Ki
 
 
 if os.path.exists(f"./.env"):
     load_dotenv(dotenv_path="./.env", override=True)
 
+TABLE = "nw-hack-2025-user"
+USER_ID = 'user_12345'
 
 def lambda_handler(event, context):
     try:
@@ -57,6 +62,19 @@ def lambda_handler(event, context):
                     'message': answer,
                     'path': path
                 })
+            }
+        elif path.endswith('/register'):
+            body = json.loads(event['body'])
+            new_user = user_from_dict(body)
+            db = UserTable(TABLE)
+            db.put_item(USER_ID, new_user)
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'text/plain',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': USER_ID
             }
         else:
             return {
