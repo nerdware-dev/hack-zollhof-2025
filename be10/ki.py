@@ -80,6 +80,8 @@ class Ki:
             "content": question
         })
 
+        print(messages)
+
         mistral_model = "mistral-large-latest"
         client = Mistral(api_key=os.environ['MISTRAL_API_KEY'])
         chat_response = client.chat.complete(
@@ -93,7 +95,7 @@ class Ki:
         return ki_response
 
     def end_interview(self) -> str:
-        answer = self.chat_mistral("Gib eine Liste der Aktivitäten als String Liste im JSON Format zurück. Die Antwort darf nur aus dieser JSON Liste bestehen.")
+        answer = self.chat_mistral("Gib eine Liste der Aktivitäten, die der Anwender genannt hat, als String Liste im JSON Format zurück. Die Antwort darf nur aus dieser JSON Liste bestehen.")
         answer = answer.strip(" `\n")
         if answer.startswith('json'):
             answer = answer[4:]

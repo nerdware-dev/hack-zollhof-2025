@@ -100,7 +100,8 @@ def lambda_handler(event, context):
                 'statusCode': 200,
                 'headers': {
                     'Content-Type': 'text/plain',
-                    'Access-Control-Allow-Origin': '*'
+                    'Access-Control-Allow-Origin': '*',
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
                 },
                 'body': USER_ID
             }
