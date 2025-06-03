@@ -99,7 +99,7 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 200,
                 'headers': {
-                    'Content-Type': 'text/plain',
+                    'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 },
                 'body': USER_ID
@@ -109,7 +109,7 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 200,
                 'headers': {
-                    'Content-Type': 'text/plain',
+                    'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 }
             }
