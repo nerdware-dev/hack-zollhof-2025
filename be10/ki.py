@@ -1,6 +1,7 @@
 import json
 
 from google import genai
+from mistralai import Mistral
 import os
 
 from User import ChatMessage
@@ -52,6 +53,56 @@ class Ki:
         )
         gemini_response_text = genai_response.text
         return gemini_response_text
+
+    def chat_mistral(self, next_question):
+        messages = []
+        messages.append({
+            "role": "system",
+            "content": """Du bist eine freundliche KI in einer App. 
+            Durch die App sollen die Nutzer dazu motiviert werden sich mehr zu bewegen.
+            Du führst nun ein Interview um die sportlichen Vorlieben des Anwenders zu erfahren. 
+            Fasse dich in Deinen Antworten kurz. Um die 4 Sätze reichen.
+            """
+        })
+        for i in self.user.chat_history:
+            messages.append({
+                "role": "user",
+                "content": i.question
+            })
+            messages.append({
+                "role": "assistant",
+                "content": i.answer
+            })
+        question = next_question
+        if len(question) == 0:
+            question = f"""Ich bin {self.user.basic_preferences.year_of_birth} geboren, {self.user.basic_preferences.gender} und bewege mich zu wenig. Kannst 
+            Du mir helfen einige Aktivitäten zu finden, durch die ich mich mehr bewege?"""
+        messages.append({
+            "role": "user",
+            "content": question
+        })
+
+        mistral_model = "mistral-large-latest"
+        client = Mistral(api_key=os.environ['MISTRAL_API_KEY'])
+        chat_response = client.chat.complete(
+            model=mistral_model,
+            messages=messages
+        )
+        ki_response = chat_response.choices[0].message.content
+        print(ki_response)
+        self.append_chat(question,ki_response)
+
+        return ki_response
+
+    def end_interview(self) -> str:
+        answer = self.chat_mistral("Gib eine Liste der Aktivitäten als String Liste im JSON Format zurück. Die Antwort darf nur aus dieser JSON Liste bestehen.")
+        answer = answer.strip(" `")
+        if answer.starts_with('"json'):
+            answer = answer[-4:]
+        self.user.ai_preferences = answer
+        self.user.chat_history = []
+        self.update_user()
+        return answer
 
     def chat_with_user_data(self, question):
         chat = self.get_chat_history()

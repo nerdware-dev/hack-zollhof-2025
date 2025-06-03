@@ -48,6 +48,34 @@ def lambda_handler(event, context):
                     'path': path
                 })
             }
+        elif path.endswith('/interview-talk'):
+            body = json.loads(event['body'])
+            question = body.get('question')
+            answer = ki.chat_mistral(question)
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({
+                    'message': answer,
+                    'path': path
+                })
+            }
+        elif path.endswith('/interview-end'):
+            answer = ki.end_interview()
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({
+                    'message': answer,
+                    'path': path
+                })
+            }
         elif path.endswith('/chat'):
             body = json.loads(event['body'])
             question = body.get('question')

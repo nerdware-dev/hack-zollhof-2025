@@ -194,4 +194,11 @@ curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.c
 --data '{
     "question":"Gibt es im Umkreis von ca 30 km um Roth herum in den nächsten Wochen Events, die ich von Roth aus gut mit dem Fahrrad erreichen kann?"
 }'
+
+curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.com/dev/api/interview-talk' \
+--header 'Content-Type: application/json' \
+--data '{
+    "question":""
+}'
+
 ```
