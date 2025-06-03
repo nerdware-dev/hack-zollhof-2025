@@ -95,7 +95,7 @@ class Ki:
     def end_interview(self) -> str:
         answer = self.chat_mistral("Gib eine Liste der Aktivitäten als String Liste im JSON Format zurück. Die Antwort darf nur aus dieser JSON Liste bestehen.")
         answer = answer.strip(" `")
-        if answer.starts_with('"json'):
+        if answer.startswith('json'):
             answer = answer[-4:]
         self.user.ai_preferences = answer
         self.user.chat_history = []

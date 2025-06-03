@@ -201,4 +201,7 @@ curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.c
     "question":""
 }'
 
+curl -X POST --location 'https://crl7n22bp5.execute-api.eu-central-1.amazonaws.com/dev/api/interview-end' \
+--header 'Content-Type: application/json'
+
 ```
