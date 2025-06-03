@@ -107,11 +107,12 @@ class Ki:
         )
         print(ag_response)
         ki_response = ag_response
+        print(ki_response)
 
         user_data["Item"]["data"]["M"]["chat"]["L"].append({"M": {"p": {"S": question}, "a": {"S": ki_response}}})
         self.user.put_item('a3cd0312-dfa4-42a7-806e-9164b5b9215c', user_data["Item"]["data"]["M"])
 
-        print(ki_response)
+
         return ki_response
 
 
