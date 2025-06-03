@@ -26,26 +26,11 @@ def lambda_handler(event, context):
                     'path': path
                 })
             }
-        elif path.endswith('/agent'):
-            body = json.loads(event['body'])
-            question = body.get('question')
-            ki = Ki()
-            answer = ki.ask_question(question)
-            return {
-                'statusCode': 200,
-                'headers': {
-                    'Content-Type': 'application/json'
-                },
-                'body': json.dumps({
-                    'message': answer,
-                    'path': path
-                })
-            }
         elif path.endswith('/chat'):
             body = json.loads(event['body'])
             question = body.get('question')
             ki = Ki()
-            answer = ki.chat_with_user_data(question)
+            answer = ki.ask_question(question)
             return {
                 'statusCode': 200,
                 'headers': {
