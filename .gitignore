@@ -318,3 +318,4 @@ dmypy.json
 cython_debug/
 
 .idea/
+.cursor

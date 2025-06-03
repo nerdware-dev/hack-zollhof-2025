@@ -6,7 +6,7 @@ html {
 
 @font-face {
   font-family: Inter;
-  src: url('/font/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+  src: url('fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
 }
 
 :root {
@@ -31,8 +31,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Inter;
-  /* font-family: "Inter", "ui-sans-serif",  "Arial", "Helvetica", "sans-serif"; */
+  font-family: Inter, "Inter", "ui-sans-serif",  "Arial", "Helvetica", "sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

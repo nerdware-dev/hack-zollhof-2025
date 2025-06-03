@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import "primeicons/primeicons.css";
-import "primereact/resources/themes/lara-light-purple/theme.css";
-// import "../styles/theme.css";
+//import "primereact/resources/themes/lara-light-purple/theme.css";
+import "../styles/theme.css";
 import { PrimeReactProvider } from "primereact/api";
+import AppLayout from "../components/AppLayout";
 
 export const metadata: Metadata = {
   title: "",
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <PrimeReactProvider>{children}</PrimeReactProvider>
+        <PrimeReactProvider>
+          <AppLayout>{children}</AppLayout>
+        </PrimeReactProvider>
       </body>
     </html>
   );
