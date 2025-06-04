@@ -128,12 +128,14 @@ class Ki:
         self.user.ai_preferences = response
         self.update_user()
 
-    def format_programs(self, ki_answer):
-        program_format = "[{name: str, description: str, link: str}, ...]"
+    def format_programs(self, type, ki_answer):
+        formats = {}
+        formats["program"] = "[{name: str, description: str, link: str}, ...]"
+        formats["event"] = "[{name: str, description: str, link: str, location: str, date: str}, ...]"
 
         system = {
             "role": "system",
-            "content": "Deine Aufgabe ist die Formatierung eines Texts in folgendes JSON-Format. Bitte antworte nur in diesem Format: " + program_format
+            "content": "Deine Aufgabe ist die Formatierung eines Texts in folgendes JSON-Format. Bitte antworte nur in folgendem validem JSON-Format: " + formats[type]
         }
         messages = []
         user = {
@@ -153,29 +155,36 @@ class Ki:
         )
         ki_response = chat_response.choices[0].message.content
         print(ki_response)
-        return ki_response
+        return self.clean_json_response(ki_response)
 
-    def get_programs_via_ai(self):
+    def get_programs_via_ai(self, type):
+        formats = {}
+        formats["program"] = "[{name: str, description: str, link: str}, ...]"
+        formats["event"] = "[{name: str, description: str, link: str, location: str, date: str}, ...]"
+
+        question = {}
+        question["program"] = "Finde passende Vorsorgeprogramme meiner Krankenversicherung in meiner Umgebung und biete jeweils Name, Link und eine kurze Beschreibung des Programms."
+        question["event"] = "Finde zu meinen Vorlieben passende Events in meiner Umgebung und biete jeweils Name, Link, Ort, Datum und eine kurze Beschreibung des Events. Exkludiere unspezifische Angebote."
+
+
+
         system_infos = """Du bist eine freundliche KI in einer App. 
                     Durch die App sollen die Nutzer dazu motiviert werden sich mehr zu bewegen.
                     Du kennst die folgenden Basis-Informationen des Nutzer: \n"""
         system_infos = system_infos + json.dumps(asdict(self.user.basic_preferences))
         system_infos = system_infos + ", sowie " + self.user.ai_preferences
-        system_infos = system_infos + "\nSei in Deinen Antworten kurz und präzise."
+        system_infos = system_infos + "\nExkludiere unkonkrete Empfehlungen."
+        system_infos = system_infos + "\nAntworte ausschließlich in folgendem JSON Format: " + formats[type]
+
         system = {
             "role": "system",
             "content": system_infos
         }
-
-
-        messages = []
         user = {
             "role": "user",
-            "content": "Bitte finde passende Vorsorgeprogramme meiner Krankenversicherung in meiner Umgebung und biete jeweils Name, Link und eine kurze Beschreibung des Programms."
+            "content": question[type]
         }
-        messages.append(system)
-        messages.append(user)
-
+        messages = [system, user]
         print(messages)
 
         mistral_model = "mistral-large-latest"
@@ -186,7 +195,7 @@ class Ki:
         )
         ki_response = chat_response.choices[0].message.content
         print(ki_response)
-        return ki_response
+        return self.clean_json_response(ki_response)
 
     def ask_question(self, question: str):
         chat_history = self.get_chat_history()
@@ -223,6 +232,17 @@ class Ki:
         self.append_chat(question, ag_response)
         self.update_user()
         return ag_response
+
+    def clean_json_response(self, raw_response: str) -> str:
+        raw_response = raw_response.strip()
+        if raw_response.startswith("```json") or raw_response.startswith("```"):
+            lines = raw_response.splitlines()
+            if lines[0].strip().startswith("```"):
+                lines = lines[1:]
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+            return "\n".join(lines).strip()
+        return raw_response
 
 
 def test():

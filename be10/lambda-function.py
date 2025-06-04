@@ -124,23 +124,24 @@ def lambda_handler(event, context):
                 }
             }
         elif path.endswith('/programs'):
-            answer = ki.get_programs_via_ai()
-            formatted = ki.format_programs(answer)
+            answer = ki.get_programs_via_ai("program")
             return {
                 'statusCode': 200,
                 'headers': {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
                 },
-                'body': formatted
+                'body': answer
             }
         elif path.endswith('/events'):
+            answer = ki.get_programs_via_ai("event")
             return {
                 'statusCode': 200,
                 'headers': {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
-                }
+                },
+                'body': answer
             }
         else:
             return {
