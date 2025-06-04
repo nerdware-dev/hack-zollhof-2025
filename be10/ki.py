@@ -1,4 +1,5 @@
 import json
+from dataclasses import asdict
 
 from google import genai
 from mistralai import Mistral
@@ -126,6 +127,66 @@ class Ki:
         self.user.chat_history = []
         self.user.ai_preferences = response
         self.update_user()
+
+    def format_programs(self, ki_answer):
+        program_format = "[{name: str, description: str, link: str}, ...]"
+
+        system = {
+            "role": "system",
+            "content": "Deine Aufgabe ist die Formatierung eines Texts in folgendes JSON-Format. Bitte antworte nur in diesem Format: " + program_format
+        }
+        messages = []
+        user = {
+            "role": "user",
+            "content": ki_answer
+        }
+        messages.append(system)
+        messages.append(user)
+
+        print(messages)
+
+        mistral_model = "mistral-large-latest"
+        client = Mistral(api_key=os.environ['MISTRAL_API_KEY'])
+        chat_response = client.chat.complete(
+            model=mistral_model,
+            messages=messages
+        )
+        ki_response = chat_response.choices[0].message.content
+        print(ki_response)
+        return ki_response
+
+    def get_programs_via_ai(self):
+        system_infos = """Du bist eine freundliche KI in einer App. 
+                    Durch die App sollen die Nutzer dazu motiviert werden sich mehr zu bewegen.
+                    Du kennst die folgenden Basis-Informationen des Nutzer: \n"""
+        system_infos = system_infos + json.dumps(asdict(self.user.basic_preferences))
+        system_infos = system_infos + ", sowie " + self.user.ai_preferences
+        system_infos = system_infos + "\nSei in Deinen Antworten kurz und präzise."
+        system = {
+            "role": "system",
+            "content": system_infos
+        }
+
+
+        messages = []
+        user = {
+            "role": "user",
+            "content": "Bitte finde passende Vorsorgeprogramme meiner Krankenversicherung in meiner Umgebung und biete jeweils Name, Link und eine kurze Beschreibung des Programms."
+        }
+        messages.append(system)
+        messages.append(user)
+
+        print(messages)
+
+        mistral_model = "mistral-large-latest"
+        client = Mistral(api_key=os.environ['MISTRAL_API_KEY'])
+        chat_response = client.chat.complete(
+            model=mistral_model,
+            messages=messages
+        )
+        ki_response = chat_response.choices[0].message.content
+        print(ki_response)
+        return ki_response
 
     def ask_question(self, question: str):
         chat_history = self.get_chat_history()
