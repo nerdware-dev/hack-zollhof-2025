@@ -104,7 +104,7 @@ export default function Badges() {
       <div className="grid grid-cols-3 gap-4 p-4">
         {unlockedBadges.map((badge) => (
           <div key={badge.id} className="flex flex-col items-center gap-5">
-            <img src={badge.image} alt={badge.title} width={100} height={100} />
+            <img src={badge.image} alt={badge.title} width={80} height={80} />
           </div>
         ))}
       </div>

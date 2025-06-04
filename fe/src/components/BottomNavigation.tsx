@@ -11,7 +11,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({
   const menuItems = [
     {
       id: "community",
-      label: "Community",
+      label: "Activities",
       icon: "pi pi-users",
       path: "/home/community",
     },

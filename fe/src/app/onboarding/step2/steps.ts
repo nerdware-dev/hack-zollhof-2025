@@ -1,13 +1,12 @@
 import { ChatMessage } from "@/components/chat/ChatInterface";
 import { useInterviewChat } from "@/hooks/useInterviewChat";
 import { useRegistration } from "@/hooks/useRegistration";
-import { insurances } from "@/stores/insurances/insurancelist";
 import { useUserStore } from "@/stores/user/userStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
-const MAX_MESSAGES = 6;
+const MAX_MESSAGES = 9;
 
 export function useSteps() {
     const [inputBlocked, setInputBlocked] = useState(false);
@@ -49,7 +48,7 @@ export function useSteps() {
         const response = await endInterview();
         console.log(response);
         if (response.status === 200) {
-            router.push("/home/calendar");
+            router.push("/home/community");
         }
     }
 

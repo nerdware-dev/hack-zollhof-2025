@@ -157,7 +157,7 @@ export default function CalendarPage() {
 
   return (
     <div className="pb-20">
-      <PageTitle title="Calendar" />
+      <PageTitle title="Your events" />
       <div className="px-4">
         <div className="flex flex-col items-center">
           <Calendar
@@ -195,10 +195,14 @@ export default function CalendarPage() {
             />
 
             {/* Event list */}
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-4">
               {events.map((event) => (
-                <div key={event.id} className="relative">
-                  <div className="flex justify-between mt-6 mb-2 ml-2">
+                <div
+                  key={event.id}
+                  className="relative my-4 rounded-lg p-4"
+                  style={{ backgroundColor: "rgb(250, 250, 250)" }}
+                >
+                  <div className="flex justify-between">
                     <div className="flex items-center">
                       <div
                         className={`w-4 h-4 rounded-full mr-3 ${
@@ -229,7 +233,7 @@ export default function CalendarPage() {
                   </div>
 
                   {/* Event details below time */}
-                  <div className="ml-2">
+                  <div className="">
                     <h3 className="text-xl font-semibold text-gray-800 mb-1">
                       {event.title}
                     </h3>

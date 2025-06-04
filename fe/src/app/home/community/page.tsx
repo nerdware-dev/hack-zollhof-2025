@@ -4,6 +4,8 @@ import ActivityComponent from "@/components/activity/activity";
 import { Activity } from "./activity";
 import PageTitle from "@/components/PageTitle";
 import { TabPanel, TabView } from "primereact/tabview";
+import EventsPanel from "./events_panel";
+import PreventionPanel from "./prevention_panel";
 
 export default function Community() {
   const activities: Activity[] = [
@@ -26,19 +28,22 @@ export default function Community() {
 
   return (
     <div>
-      <PageTitle title="Upcoming Activities" />
+      <PageTitle title="Activities & Prevention" />
 
       <TabView>
         <TabPanel header="Prevention" className="p-0">
-          {activities.map((activity) => (
-            <ActivityComponent activity={activity} />
-          ))}
+          <PreventionPanel />
         </TabPanel>
         <TabPanel header="Events">
-          <p className="m-0">Nothing found yet.</p>
+          <EventsPanel />
         </TabPanel>
         <TabPanel header="Activities">
-          <p className="m-0">Nothing found yet.</p>
+          {activities.map((activity) => (
+            <ActivityComponent
+              activity={activity}
+              key={activity.title + activity.category + activity.description}
+            />
+          ))}
         </TabPanel>
       </TabView>
     </div>
