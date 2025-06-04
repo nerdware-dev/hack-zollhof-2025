@@ -143,6 +143,16 @@ def lambda_handler(event, context):
                 },
                 'body': answer
             }
+        elif path.endswith('/activities'):
+            answer = ki.get_programs_via_ai("activity")
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': answer
+            }
         else:
             return {
                 'statusCode': 404,

@@ -161,12 +161,12 @@ class Ki:
         formats = {}
         formats["program"] = "[{name: str, description: str, link: str}, ...]"
         formats["event"] = "[{name: str, description: str, link: str, location: str, date: str}, ...]"
+        formats["activity"]  ="[{name: str, description: str, link: str}, ...]"
 
         question = {}
         question["program"] = "Finde passende Vorsorgeprogramme meiner Krankenversicherung in meiner Umgebung und biete jeweils Name, Link und eine kurze Beschreibung des Programms."
         question["event"] = "Finde zu meinen Vorlieben passende Events in meiner Umgebung und biete jeweils Name, Link, Ort, Datum und eine kurze Beschreibung des Events. Exkludiere unspezifische Angebote."
-
-
+        question["activity"] ="Finde zu meinen Vorlieben passende Aktivitäten/Ausflüge, die ich spontan tun kann und biete jeweils Name, Link und eine kurze Beschreibung."
 
         system_infos = """Du bist eine freundliche KI in einer App. 
                     Durch die App sollen die Nutzer dazu motiviert werden sich mehr zu bewegen.
