@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
+const MAX_MESSAGES = 6;
+
 export function useSteps() {
+    const [inputBlocked, setInputBlocked] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const userStore = useUserStore();
@@ -17,6 +20,8 @@ export function useSteps() {
 
 
     function addMessage(message: ChatMessage, delay: number = 0) {
+        if (inputBlocked)
+            return;
         setTimeout(() => {
             setMessages((prev) => {
                 if (prev.find((m) => m.id === message.id) === undefined) {
@@ -25,7 +30,17 @@ export function useSteps() {
                 return prev;
             });
         }, delay);
-        if (messages.length >= 6) {
+        if (messages.length >= MAX_MESSAGES) {
+            setInputBlocked(true);
+            setMessages((prev) => {
+                return [...prev, {
+                    id: Math.random().toString(36).substring(2, 15),
+                    type: "text",
+                    text: "Vielen Dank, ich werde dir nun ein paar Empfehlungen für Aktivitäten zusammenstellen.",
+                    sender: "ai",
+                    timestamp: new Date(),
+                }];
+            });
             handleEndInterview();
         }
     }

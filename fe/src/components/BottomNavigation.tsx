@@ -10,19 +10,25 @@ const BottomNavigation: FC<BottomNavigationProps> = ({
 }) => {
   const menuItems = [
     {
-      id: "calendar",
-      label: "Calendar",
-      icon: "pi pi-calendar",
-      path: "/home/calendar",
-    },
-    { id: "map", label: "Map", icon: "pi pi-map", path: "/home/map" },
-    { id: "chat", label: "Chat", icon: "pi pi-comments", path: "/home/chat" },
-    {
       id: "community",
       label: "Community",
       icon: "pi pi-users",
       path: "/home/community",
     },
+    {
+      id: "calendar",
+      label: "Calendar",
+      icon: "pi pi-calendar",
+      path: "/home/calendar",
+    },
+    { id: "chat", label: "Chat", icon: "pi pi-comments", path: "/home/chat" },
+    {
+      id: "badges",
+      label: "Badges",
+      icon: "pi pi-trophy",
+      path: "/home/badges",
+    },
+
     {
       id: "profile",
       label: "Profile",

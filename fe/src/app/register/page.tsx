@@ -51,6 +51,7 @@ export default function Login() {
       yearOfBirth: userData.yearOfBirth,
       email: userData.email,
       gender: "",
+      radius: 0,
     });
     router.push("/onboarding");
   };

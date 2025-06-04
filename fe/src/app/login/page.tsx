@@ -33,8 +33,8 @@ export default function Login() {
       name: "AOK",
       key: "aok",
     });
-    //router.replace("/home/calendar");
-    router.replace("/onboarding");
+    router.replace("/home/community");
+    //router.replace("/onboarding");
   }
 
   async function callApi() {
