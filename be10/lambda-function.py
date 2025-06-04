@@ -123,6 +123,24 @@ def lambda_handler(event, context):
                     'Access-Control-Allow-Origin': '*'
                 }
             }
+        elif path.endswith('/programs'):
+            answer = ki.get_programs_via_ai()
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                'body': json.dumps(answer)
+                }
+            }
+        elif path.endswith('/events'):
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            }
         else:
             return {
                 'statusCode': 404,
