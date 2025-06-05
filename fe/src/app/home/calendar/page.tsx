@@ -4,12 +4,13 @@ import { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
-import { Menu } from "primereact/menu";
 import { addLocale } from "primereact/api";
 import { Sidebar } from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { RadioButton } from "primereact/radiobutton";
+import { SelectButtonChangeEvent } from "primereact/selectbutton";
+import { SelectButton } from "primereact/selectbutton";
 
 // Event type definition
 type Event = {
@@ -378,35 +379,17 @@ export default function CalendarPage() {
 
           <div className="mb-6">
             <h3 className="text-lg mb-3">Schwierigkeitsgrad</h3>
-            <div className="flex gap-3">
-              <Button
-                label="Anfänger freundlich"
-                className={`flex-1 p-button-outlined ${
-                  selectedDifficulty === "Anfänger freundlich"
-                    ? "bg-blue-100 text-blue-800 border-blue-300"
-                    : ""
-                }`}
-                onClick={() => setSelectedDifficulty("Anfänger freundlich")}
-              />
-              <Button
-                label="mittel"
-                className={`flex-1 p-button-outlined ${
-                  selectedDifficulty === "mittel"
-                    ? "bg-orange-100 text-orange-800 border-orange-300"
-                    : ""
-                }`}
-                onClick={() => setSelectedDifficulty("mittel")}
-              />
-              <Button
-                label="fortgeschritten"
-                className={`flex-1 p-button-outlined ${
-                  selectedDifficulty === "fortgeschritten"
-                    ? "bg-red-100 text-red-800 border-red-300"
-                    : ""
-                }`}
-                onClick={() => setSelectedDifficulty("fortgeschritten")}
-              />
-            </div>
+            <SelectButton
+              value={selectedDifficulty}
+              onChange={(e: SelectButtonChangeEvent) =>
+                setSelectedDifficulty(e.value)
+              }
+              options={[
+                { label: "Beginner", value: "beginner" },
+                { label: "Intermediate", value: "intermediate" },
+                { label: "Advanced", value: "advanced" },
+              ]}
+            />
           </div>
 
           <div className="flex flex-col gap-3 mt-8">

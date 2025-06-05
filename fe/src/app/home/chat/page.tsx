@@ -10,13 +10,16 @@ export default function Chat() {
 
   function handleUserMessageSent(message: string) {
     sendMessage(message).then((response) => {
-      setMessages((prev) => [...prev, {
-        id: Math.random().toString(36).substring(2, 15),
-        type: "text",
-        text: response.data.message,
-        sender: "ai",
-        timestamp: new Date(),
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(2, 15),
+          type: "text",
+          text: response.data.message,
+          sender: "ai",
+          timestamp: new Date(),
+        },
+      ]);
     });
   }
 

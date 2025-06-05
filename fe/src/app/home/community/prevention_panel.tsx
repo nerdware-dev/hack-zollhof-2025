@@ -25,14 +25,6 @@ export default function PreventionPanel() {
 
   return (
     <div>
-      {activityStore.loadingPreventionPrograms && (
-        // Add some skeleton loading animations
-        <div>
-          <Skeleton className="mt-4" width="100%" height="100px" />
-          <Skeleton className="mt-4" width="100%" height="100px" />
-          <Skeleton className="mt-4" width="100%" height="100px" />
-        </div>
-      )}
       <div
         style={{ backgroundColor: "#C5E6E7" }}
         className="p-4 mb-6 rounded-lg"
@@ -49,6 +41,14 @@ export default function PreventionPanel() {
           </div>
         </div>
       </div>
+      {activityStore.loadingPreventionPrograms && (
+        // Add some skeleton loading animations
+        <div>
+          <Skeleton className="mt-4" width="100%" height="100px" />
+          <Skeleton className="mt-4" width="100%" height="100px" />
+          <Skeleton className="mt-4" width="100%" height="100px" />
+        </div>
+      )}
       {activityStore.preventionPrograms.map((program) => (
         <ProgramComponent program={program} key={program.name + program.link} />
       ))}
@@ -61,6 +61,7 @@ function ProgramComponent({ program }: { program: Program }) {
     <div
       className="mb-8 p-4 rounded-lg"
       style={{ backgroundColor: "rgb(250, 250, 250)" }}
+      onClick={() => window.open(program.link, "_blank")}
     >
       <div className="flex justify-between items-start gap-2">
         <div className="text-xl font-bold">{program.name}</div>
